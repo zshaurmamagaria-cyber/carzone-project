@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARZONE – browse, compare and buy your next car. BMW, Mercedes, Toyota, Audi, Tesla and more.">
+<meta name="theme-color" content="#e63a2e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20100%20100%27%3E%3Ctext%20y=%27.9em%27%20font-size=%2790%27%3E%F0%9F%9A%97%3C/text%3E%3C/svg%3E">
+<title>CARZONE – Find Your Dream Car</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loading"><div class="spinner"></div><p>Loading...</p></div>
+<div id="toasts"></div>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="header">
+  <nav class="nav">
+    <a href="#home" class="logo">CAR<span>ZONE</span></a>
+    <ul class="links" id="links">
+      <li><a href="#home">Home</a></li><li><a href="#cars">Cars</a></li><li><a href="#favorites">Favorites</a></li>
+      <li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li>
+    </ul>
+    <input class="search" id="search" type="search" placeholder="Search cars..." aria-label="Search cars">
+    <div class="icons">
+      <button class="ibtn mode-light" id="theme" title="Dark / Light" aria-label="Toggle dark mode">🌙</button>
+      <a class="ibtn" href="#favorites" title="Favorites">❤️ <b id="favCount">0</b></a>
+      <button class="ibtn" data-act="openCart" title="Cart" aria-label="Open cart">🛒 <b id="cartCount">0</b></button>
+      <button class="ibtn burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <div class="hero-text">
+    <h1><span>FIND YOUR</span><span>DREAM CAR</span></h1>
+    <p>Find the perfect car for your lifestyle.</p>
+    <a href="#cars" class="btn btn-red">EXPLORE CARS</a>
+  </div>
+  <div class="hero-img"><img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=900" alt="Dream car" fetchpriority="high" decoding="async"></div>
+</section>
+
+<section id="cars" class="section reveal">
+  <h2 class="title">Cars</h2>
+  <div class="filters">
+    <label>Brand<select id="brand"><option>All</option><option>BMW</option><option>Mercedes</option><option>Toyota</option><option>Audi</option><option>Tesla</option></select></label>
+    <label>Fuel<select id="fuel"><option>All</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></label>
+    <label>Transmission<select id="trans"><option>All</option><option>Automatic</option><option>Manual</option></select></label>
+    <label>Min Price<input type="number" id="minP" min="0" placeholder="Min Price"></label>
+    <label>Max Price<input type="number" id="maxP" min="0" placeholder="Max Price"></label>
+    <label>Sort By<select id="sort">
+      <option value="">Default</option><option value="low">Price: Low → High</option><option value="high">Price: High → Low</option>
+      <option value="az">Name: A → Z</option><option value="za">Name: Z → A</option><option value="new">Year: Newest</option><option value="old">Year: Oldest</option></select></label>
+    <button class="btn btn-dark" id="reset">RESET FILTERS</button>
+  </div>
+  <div class="range"><span>$10,000</span><input type="range" id="range" min="10000" max="100000" step="1000" value="100000" aria-label="Max price slider"><span>$100,000</span><b id="rangeVal">No limit</b></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden><div>🚗</div><h3>No cars found.</h3><p>Try another search.</p></div>
+  <div class="pager" id="pager"></div>
+</section>
+
+<section id="favorites" class="section reveal alt">
+  <h2 class="title">Favorites</h2>
+  <div class="grid" id="favGrid"></div>
+  <div class="empty" id="favEmpty" hidden><div>❤️</div><h3>No favorite cars yet.</h3></div>
+</section>
+
+<section id="add" class="section reveal">
+  <h2 class="title">Add New Car</h2>
+  <form id="addForm" class="form wide" novalidate>
+    <div class="row">
+      <div class="f"><label>Brand</label><input id="aBrand"><small></small></div>
+      <div class="f"><label>Model</label><input id="aModel"><small></small></div>
+      <div class="f"><label>Year</label><input id="aYear" type="number"><small></small></div>
+      <div class="f"><label>Price ($)</label><input id="aPrice" type="number"><small></small></div>
+      <div class="f"><label>Fuel</label><select id="aFuel"><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select><small></small></div>
+      <div class="f"><label>Transmission</label><select id="aTrans"><option>Automatic</option><option>Manual</option></select><small></small></div>
+    </div>
+    <div class="f"><label>Image URL</label><input id="aImg" placeholder="https://..."><small></small></div>
+    <button class="btn btn-red">ADD CAR</button>
+  </form>
+</section>
+
+<section id="about" class="section reveal alt">
+  <h2 class="title">WHY CARZONE?</h2>
+  <ul class="why"><li>✓ 500+ Cars</li><li>✓ Trusted Sellers</li><li>✓ Secure Purchase</li><li>✓ Fast Support</li></ul>
+  <div class="stats" id="stats">
+    <div><b data-to="500">0</b><span>Cars</span></div><div><b data-to="1200">0</b><span>Customers</span></div><div><b data-to="15">0</b><span>Brands</span></div>
+  </div>
+</section>
+
+<section id="contact" class="section reveal">
+  <h2 class="title">Contact</h2>
+  <form id="contactForm" class="form" novalidate>
+    <div class="f"><label>Name</label><input id="cName"><small></small></div>
+    <div class="f"><label>Email</label><input id="cEmail"><small></small></div>
+    <div class="f"><label>Message</label><textarea id="cMsg" rows="4"></textarea><small></small></div>
+    <button class="btn btn-red">Send Message</button>
+  </form>
+</section>
+
+<footer class="footer">
+  <div class="foot"><b class="logo">CAR<span>ZONE</span></b>
+    <nav><a href="#home">Home</a><a href="#cars">Cars</a><a href="#favorites">Favorites</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <nav><a href="#">Facebook</a><a href="#">Instagram</a><a href="#">YouTube</a></nav></div>
+  <p>© 2026 CARZONE</p>
+</footer>
+
+<div class="bar" id="cmpBar" hidden><span id="cmpTxt"></span><button class="btn btn-red" data-act="showCompare">Compare</button><button class="btn btn-dark" data-act="clearCompare">Clear</button></div>
+<button id="topBtn" title="Back to top" aria-label="Back to top">↑</button>
+
+<div class="modal" id="detailsModal"><div class="box"><button class="x" data-act="close" aria-label="Close">×</button><div id="detailsBody"></div></div></div>
+<div class="modal" id="compareModal"><div class="box"><button class="x" data-act="close" aria-label="Close">×</button><div id="compareBody"></div></div></div>
+
+<div class="modal" id="cartModal"><div class="box"><button class="x" data-act="close" aria-label="Close">×</button>
+  <h2>Cart</h2><div id="cartItems"></div>
+  <div class="coupon"><input id="coupon" placeholder="Enter Coupon"><button class="btn btn-dark" data-act="coupon">Apply</button></div><small id="couponMsg"></small>
+  <div class="totals" id="totals"></div>
+  <button class="btn btn-red full" data-act="checkout">CHECKOUT</button></div></div>
+
+<div class="modal" id="checkoutModal"><div class="box"><button class="x" data-act="close" aria-label="Close">×</button>
+  <h2>Checkout</h2>
+  <form id="checkoutForm" class="form" novalidate>
+    <div class="f"><label>Name</label><input id="kName"><small></small></div>
+    <div class="f"><label>Email</label><input id="kEmail"><small></small></div>
+    <div class="f"><label>Phone</label><input id="kPhone"><small></small></div>
+    <div class="f"><label>Address</label><input id="kAddr"><small></small></div>
+    <div class="f"><label>Card Number</label><input id="kCard" placeholder="1234 5678 9012 3456"><small></small></div>
+    <button class="btn btn-red full">PLACE ORDER</button>
+  </form></div></div>
+
+<div class="modal" id="successModal"><div class="box center"><div class="big">✓</div><h2>Order Successful!</h2><p>Thank you for your purchase.</p><p>Order ID: <b id="orderId"></b></p><p id="orderDate"></p><button class="btn btn-red" data-act="close">Continue</button></div></div>
+<div class="modal" id="confirmModal"><div class="box center"><h2>Are you sure?</h2><p>This car will be deleted.</p><div class="btns"><button class="btn btn-dark" data-act="close">Cancel</button><button class="btn btn-red" data-act="delete">Delete</button></div></div></div>
+
+<script src="js/cars.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
